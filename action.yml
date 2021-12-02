@@ -7,9 +7,9 @@ branding:
   color: 'purple'
 inputs:
   pip-audit_flags:
-    description: 'Optional pip-audit flags (refer to `pip-audit --help`)'
-    required: false
-    default: ''
+    description: 'audit the given requirements file (usually requirements.txt)'
+    required: true
+    default: '-r requirements.txt'
 outputs:
   output:
     description: 'The output of pip-audit'

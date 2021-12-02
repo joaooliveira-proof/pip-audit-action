@@ -5,4 +5,4 @@ set -eax
 pip-audit --version
 #$1 is the optional file to check
 #$2 are any optional flags to be passed
-pip-audit $2 -r $1
+pip-audit --desc $2 -r $1
