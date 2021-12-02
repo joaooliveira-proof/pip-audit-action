@@ -1,0 +1,29 @@
+name: check for pip-audit updates
+on: {workflow_dispatch, schedule: [cron: '0 0 * * *']}
+jobs:
+  check-for-updates:
+    runs-on: ubuntu-20.04
+    name: check for pip-audit updates
+    env:
+      GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+          architecture: x64
+      - name: check version
+        run: |
+          pip install -U pip-audit
+          pip freeze | grep 'pip-audit==' >requirements.txt
+      - uses: peter-evans/create-pull-request@v3.10.0
+        id: new_pull_request
+        with:
+          delete-branch: true
+          title: automatic pip-audit update
+          commit-message: automatic pip-audit update
+          branch: automatic-pip-audit-update
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+      - if: steps.new_pull_request.outputs.pull-request-url != ''
+        run: gh pr merge --auto --squash ${{ steps.new_pull_request.outputs.pull-request-url }}

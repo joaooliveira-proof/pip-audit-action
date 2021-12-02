@@ -1,0 +1,21 @@
+# action.yml
+name: 'The Amazing Pip-Audit Check'
+author: 'Daniel Cuthbert'
+description: 'GitHub action to scan Python environments for packages with known vulnerabilities'
+branding:
+  icon: 'thumbs-up'
+  color: 'purple'
+inputs:
+  pip-audit_flags:
+    description: 'Optional pip-audit flags (refer to `pip-audit --help`)'
+    required: false
+    default: ''
+outputs:
+  output:
+    description: 'The output of pip-audit'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.path }}
+    - ${{ inputs.pip-audit_flags }}
